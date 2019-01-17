@@ -20,6 +20,8 @@ private
 
   def find_model(klass_to_id)
     klass, id = klass_to_id.values_at('klass', 'id')
+    puts "#{klass}------------"
+    puts "#{id}===================="
     return unless klass.present?
     klass.constantize.find(id.to_i)
   end
