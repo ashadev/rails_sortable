@@ -6,6 +6,7 @@ class SortableController < ApplicationController
     ActiveRecord::Base.transaction do
       params['rails_sortable'].each_with_index do |klass_to_id, new_sort|
         model = find_model(klass_to_id)
+        next unless model.present?
         current_sort = model.read_attribute(model.class.sort_attribute)
         new_sort = new_sort +1
         model.update_sort!(new_sort) if current_sort != new_sort
@@ -19,6 +20,7 @@ private
 
   def find_model(klass_to_id)
     klass, id = klass_to_id.values_at('klass', 'id')
+    return unless klass.present?
     klass.constantize.find(id.to_i)
   end
 end
